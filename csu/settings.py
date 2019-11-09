@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'drf_yasg',
     'rest_framework',
     'graphene_django',
     'users',
@@ -86,14 +87,9 @@ WSGI_APPLICATION = 'csu.wsgi.application'
 mode = config('MODE', default=False)
 
 if mode == 'PRODUCTION':
-    DATABASES = {'default': dj_database_url.config(
-        default=config('DATABASE_URL'))}
     DATABASES = {
-        'default': {  # Todo: use OPTIONS key instead with the path to option file as value
-            'ENGINE': 'django.db.backends.mysql',
-        }
+        'default': dj_database_url.config(default=config('DATABASE_URL'))
     }
-
 
 else:
     DATABASES = {
