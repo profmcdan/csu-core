@@ -39,10 +39,24 @@ class User(AbstractBaseUser, PermissionsMixin):
         verbose_name='Last Name',
     )
 
+    middle_name = models.CharField(
+        max_length=30,
+        blank=True,
+        null=True,
+        verbose_name='Middle Name',
+    )
+
     email = models.EmailField(
         unique=True,
         max_length=50,
         verbose_name='Email',
+    )
+
+    phone = models.CharField(
+        max_length=30,
+        blank=True,
+        null=True,
+        verbose_name='Phone Number',
     )
 
     is_staff = models.BooleanField(
