@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
+import dj_database_url
 from datetime import timedelta
 from decouple import config
 import os
@@ -82,26 +83,39 @@ WSGI_APPLICATION = 'csu.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {  # Todo: use OPTIONS key instead with the path to option file as value
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'csudb',
-        'USER': 'root',
-        'PASSWORD': '',
-        'HOST': config('DATABASE_HOST', default='localhost'),
-        'PORT': '3306',
-        'OPTIONS': {'charset': 'utf8mb4'},
-    },
-    'test': {  # Todo: use OPTIONS key instead with the path to option file as value
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'csudb_test',
-        'USER': 'root',
-        'PASSWORD': '',
-        'HOST': config('DATABASE_HOST', default='localhost'),
-        'PORT': '3306',
-        'OPTIONS': {'charset': 'utf8mb4'},
+mode = config('MODE', default=False)
+
+if mode == 'PRODUCTION':
+    DATABASES = {'default': dj_database_url.config(
+        default=config('DATABASE_URL'))}
+    DATABASES = {
+        'default': {  # Todo: use OPTIONS key instead with the path to option file as value
+            'ENGINE': 'django.db.backends.mysql',
+        }
     }
-}
+
+
+else:
+    DATABASES = {
+        'default': {  # Todo: use OPTIONS key instead with the path to option file as value
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'csudb',
+            'USER': 'root',
+            'PASSWORD': '',
+            'HOST': config('DATABASE_HOST', default='localhost'),
+            'PORT': '3306',
+            'OPTIONS': {'charset': 'utf8mb4'},
+        },
+        'test': {  # Todo: use OPTIONS key instead with the path to option file as value
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'csudb_test',
+            'USER': 'root',
+            'PASSWORD': '',
+            'HOST': config('DATABASE_HOST', default='localhost'),
+            'PORT': '3306',
+            'OPTIONS': {'charset': 'utf8mb4'},
+        }
+    }
 
 
 # Password validation
