@@ -6,7 +6,7 @@ from rest_framework.decorators import action
 from rest_framework import viewsets, mixins, status
 from rest_framework.response import Response
 
-from .serializers import DefaultSerializer, UpdateProfileSerializer
+from .serializers import DefaultSerializer, UpdateProfileSerializer, ProfileSerializer
 from .models import Profile
 
 
@@ -18,7 +18,15 @@ class ProfileViewSet(viewsets.ModelViewSet):
     def get_serializer_class(self):
         if self.action == 'update_profile':
             return UpdateProfileSerializer
+        elif self.action == 'members':
+            return ProfileSerializer
         return self.serializer_class
+
+    @action(methods=['GET'], detail=False)
+    def members(self, request, pk=None):
+        members = Profile.objects.all().order_by('user')
+        serializer = self.get_serializer(members, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     @action(methods=['POST'], detail=False)
     def update_profile(self, request, pk=None):

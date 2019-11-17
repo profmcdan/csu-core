@@ -22,6 +22,7 @@ from rest_framework_simplejwt import views as jwt_views
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
+from users import views
 
 from .schema import schema
 
@@ -32,7 +33,7 @@ schema_view = get_schema_view(
         description="C&S Unification Graduate Forum Akure API Doc",
         terms_of_service="https://www.google.com/policies/terms/",
         contact=openapi.Contact(email="danielale9291@gmail.com"),
-        license=openapi.License(name="MIT License"),
+        license=openapi.License(name="BSD License"),
     ),
     public=True,
     permission_classes=(permissions.AllowAny,),
@@ -49,10 +50,12 @@ urlpatterns = [
                                          cache_timeout=0), name='schema-redoc'),
     path('api', csrf_exempt(FileUploadGraphQLView.as_view(
         graphiql=True, schema=schema))),
-    path('api/user/login/', jwt_views.TokenObtainPairView.as_view(),
+    path('api/auth/register', views.register, name='regit'),
+    path('api/auth/login/', jwt_views.TokenObtainPairView.as_view(),
          name='token_obtain_pair'),
-    path('api/user/refresh-token/',
+    path('api/auth/refresh-token/',
          jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
-    path('api/user/', include('users.urls')),
+    path('api/auth/', include('users.urls')),
     path('api/profile/', include('members.urls')),
+
 ]

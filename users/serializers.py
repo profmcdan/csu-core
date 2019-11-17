@@ -39,6 +39,9 @@ class UserSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         email = validated_data.pop('email', None)
         validated_data['email'] = email.strip().lower()
+        exists = get_user_model().objects.filter(email=email).exists()
+        if exists:
+            raise APIException(detail='Email address already exists', code=400)
         return get_user_model().objects.create_user(**validated_data)
 
     def update(self, instance, validated_data):

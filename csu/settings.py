@@ -80,6 +80,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'csu.wsgi.application'
+# APPEND_SLASH = False
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
@@ -185,6 +186,8 @@ REST_FRAMEWORK = {
 }
 
 SIMPLE_JWT = {
+    'AUTH_HEADER_TYPES': ('Bearer',),
+
     'ACCESS_TOKEN_LIFETIME': timedelta(days=7),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=10),
     'ROTATE_REFRESH_TOKENS': False,
