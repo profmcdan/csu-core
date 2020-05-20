@@ -42,7 +42,7 @@ graphql-core==2.2.1
 graphql-relay==2.0.0
 gunicorn==20.0.0
 html5lib==1.0.1
-httplib2==0.14.0
+httplib2==0.18.0
 idna==2.8
 inflection==0.3.1
 mysqlclient==1.4.5
