@@ -51,7 +51,7 @@ olefile==0.46
 packaging==19.2
 pendulum==2.0.5
 pilkit==2.0
-Pillow==6.2.1
+Pillow==9.0.0
 Pint==0.9
 pip-review==1.0
 promise==2.2.1
